@@ -27,7 +27,7 @@ const fetchRequest = async (url, {
     throw new Error(`Ошибка ${response.status}: ${response.statusText}`);
   } catch (err) {
 
-      callback(err);
+    //   callback(err);
   }
 };
 const renderNewsCard = ({title, description, url, urlToImage, publishedAt, author}) => {
@@ -97,7 +97,8 @@ const init = () => {
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-
+    document.querySelector('.headlines').textContent = '';
+    document.querySelector('.search_result').textContent = '';
     const searchWord = search.value;
     const language = lang.options[lang.selectedIndex].value;
 
@@ -108,29 +109,29 @@ const init = () => {
     const urlNews = `https://newsapi.org/v2/everything?q=${searchWord}`;
 
     const urlHeadlines = `https://newsapi.org/v2/top-headlines?country=${language || 'ru'}`;
+    const load = (url, url2) => Promise.all([
+      fetchRequest(url,
+          {
+            headers: {
+              'X-Api-Key': '069c3e87d1244ff692b6ef120db21084',
+            },
+          }),
+      fetchRequest(url2,
+          {
+            headers: {
+              'X-Api-Key': '069c3e87d1244ff692b6ef120db21084',
+            },
+          },
+      ),
+    ]);
+
+    load(urlHeadlines, urlNews).then(async (data) => {
+      const headlines = await renderHeadlines(null, data[0]);
+      document.querySelector('.headlines').append(headlines);
+      const search = await renderSearchNews(null, data[1]);
+      document.querySelector('.search_result').append(search);
+    });
   });
-
-  return Promise.all([
-    fetchRequest(urlHeadlines,
-        {
-          headers: {
-            'X-Api-Key': '069c3e87d1244ff692b6ef120db21084',
-          },
-        }),
-    fetchRequest(urlNews,
-        {
-          headers: {
-            'X-Api-Key': '069c3e87d1244ff692b6ef120db21084',
-          },
-        },
-    ),
-  ]);
 };
+init();
 
-init().then(async (data) => {
-
-  const headlines = await renderHeadlines(null, data[0]);
-  document.querySelector('.headlines').append(headlines);
-  const search = await renderSearchNews(null, data[1]);
-  document.querySelector('.search_result').append(search);
-});
