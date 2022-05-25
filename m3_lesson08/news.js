@@ -88,12 +88,26 @@ const renderSearchNews = async (err, data) => {
   container.append(newsWrapper);
   return container;
 };
+
+const loadFreshNews = async (url) => {
+  const data = fetchRequest(url,
+      {
+        headers: {
+          'X-Api-Key': '069c3e87d1244ff692b6ef120db21084',
+        },
+      });
+
+  const freshNews = await renderHeadlines(null, await data);
+  document.querySelector('.headlines').append(freshNews);
+};
 const init = () => {
   document.querySelector('.title-wrapper').style.display = 'none';
   document.querySelector('.search_result').style.display = 'none';
   const form = document.querySelector('.form-search');
   const search = document.querySelector('.search-input');
   const lang = document.querySelector('.js-choice');
+  const urlHeadlinesFirst = `./search.json`;
+  loadFreshNews(urlHeadlinesFirst);
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -103,7 +117,7 @@ const init = () => {
     const language = lang.options[lang.selectedIndex].value;
 
     document.querySelector('.title-wrapper').style.display = '';
-    document.querySelector('.title').textContent = `По вашему запросу “${searchWord}” найдено 8 результатов`;
+
     document.querySelector('.search_result').style.display = '';
 
     const urlNews = `https://newsapi.org/v2/everything?q=${searchWord}`;
@@ -126,10 +140,19 @@ const init = () => {
     ]);
 
     load(urlHeadlines, urlNews).then(async (data) => {
-      const headlines = await renderHeadlines(null, data[0]);
-      document.querySelector('.headlines').append(headlines);
-      const search = await renderSearchNews(null, data[1]);
-      document.querySelector('.search_result').append(search);
+      if (data[0].totalResults !== 0) {
+        const headlines = await renderHeadlines(null, data[0]);
+        document.querySelector('.headlines').append(headlines);
+      } else {
+        document.querySelector('.fresh_news').textContent = 'Свежих новостей нет';
+      }
+      if (data[1].totalResults !== 0) {
+        const search = await renderSearchNews(null, data[1]);
+        document.querySelector('.search_result').append(search);
+        document.querySelector('.title').textContent = `По вашему запросу “${searchWord}” найдено 8 результатов`;
+      } else {
+        document.querySelector('.title').textContent = `По вашему запросу “${searchWord}” найдено 0 результатов`;
+      }
     });
   });
 };
