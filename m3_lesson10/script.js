@@ -54,6 +54,7 @@ const cardNumber = document.querySelector('.card__number');
 const inputHolder = document.querySelector('.input__holder');
 const inputNumber = document.querySelector('.input__number');
 const inputDate = document.querySelector('.input__date');
+const cvvInput = document.querySelector('.input__cvv');
 const form = document.querySelector('.form');
 
 const cardNumberMask = new Inputmask('9999-9999-9999-9999');
@@ -61,9 +62,10 @@ cardNumberMask.mask(inputNumber);
 const cardDateMask = new Inputmask('99/99');
 cardDateMask.mask(inputDate);
 
-const cardNameMask = new Inputmask('a{1,} a{1,}');
+const cardNameMask = new Inputmask('a{1,20} a{1,20}');
 cardNameMask.mask(inputHolder);
-
+const cvvMask = new Inputmask('999');
+cvvMask.mask(cvvInput);
 
 form.addEventListener('input', (e) => {
   if (e.target === inputHolder) cardHolder.textContent = inputHolder.value;
