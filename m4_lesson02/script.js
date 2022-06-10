@@ -37,12 +37,9 @@ Cart.prototype.calculateGoodsPrice = function() {
     this.totalPrice += price * quantity;
   }
 };
-Cart.prototype.addGoods = function({price, title, quantity = 1}) {
-  const newItem = {
-    title,
-    price,
-    quantity,
-  };
+Cart.prototype.addGoods = function(newItem, quantity = 1) {
+  newItem.quantity = quantity;
+
   console.log(newItem);
   this.goods.push(newItem);
   this.increaseCount(quantity);
@@ -53,6 +50,7 @@ Cart.prototype.getTotalPrice = function() {
 };
 Cart.prototype.increaseCount = function(plusQuantity) {
   this.count += plusQuantity;
+  console.log('this.count: ', this.count);
 };
 
 Cart.prototype.clear = function() {
@@ -72,5 +70,6 @@ const cart = new Cart();
 cart.addGoods(bread);
 cart.addGoods(dress);
 cart.addGoods(fridge);
+cart.addGoods(fridge, 3);
 cart.print();
 console.dir('cart: ', cart);
