@@ -11,7 +11,9 @@
     "inputmask": "^5.0.7",
     "redom": "^3.27.3"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "cypress": "^10.1.0"
+  },
   "keywords": [],
   "description": ""
 }
