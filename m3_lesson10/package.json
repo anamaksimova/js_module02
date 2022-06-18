@@ -9,6 +9,7 @@
   "license": "ISC",
   "dependencies": {
     "inputmask": "^5.0.7",
+    "just-validate": "^3.8.1",
     "redom": "^3.27.3"
   },
   "devDependencies": {

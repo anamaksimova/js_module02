@@ -1,5 +1,5 @@
 // / <reference types="cypress" />
-import './script.js';
+import '../../script.js';
 
 describe('Валидация Card Holder ', () => {
   beforeEach(() => {
@@ -7,17 +7,17 @@ describe('Валидация Card Holder ', () => {
   });
   it('одно слово', () => {
     cy.get('.input__holder').type('ANNA');
-    cy.get('.form__button').click();
+    cy.get('.valid').click();
     cy.get('.input__holder').should('have.class', 'just-validate-error-field');
   });
   it('кириллица', () => {
     cy.get('.input__holder').type('АННА');
-    cy.get('.form__button').click();
+    cy.get('.valid').click();
     cy.get('.input__holder').should('have.class', 'just-validate-error-field');
   });
   it('с цифрами', () => {
     cy.get('.input__holder').type('ANNA5');
-    cy.get('.form__button').click();
+    cy.get('.valid').click();
     cy.get('.input__holder').should('have.class', 'just-validate-error-field');
   });
 });
@@ -29,17 +29,17 @@ describe('Валидация Card Number ', () => {
   });
   it('латиница', () => {
     cy.get('.input__number').type('ANNAANNAANNAANNA');
-    cy.get('.form__button').click();
+    cy.get('.valid').click();
     cy.get('.input__number').should('have.class', 'just-validate-error-field');
   });
   it('кириллица', () => {
     cy.get('.input__number').type('АННААННААННААННА');
-    cy.get('.form__button').click();
+    cy.get('.valid').click();
     cy.get('.input__number').should('have.class', 'just-validate-error-field');
   });
   it('латиница', () => {
     cy.get('.input__number').type('ANNA,NNAANNAANNA');
-    cy.get('.form__button').click();
+    cy.get('.valid').click();
     cy.get('.input__number').should('have.class', 'just-validate-error-field');
   });
 });

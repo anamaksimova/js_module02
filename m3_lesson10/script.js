@@ -1,5 +1,6 @@
 import {el, setChildren} from './node_modules/redom/dist/redom.es.js';
 import Inputmask from './node_modules/inputmask/dist/inputmask.es6.js';
+import JustValidate from './node_modules/just-validate/dist/just-validate.es.js';
 const cardBuild = () => {
   const card = el('div', {className: 'credit-card'},
       el('span', {className: 'card__number'}, '____-____-____-____'),
@@ -122,6 +123,7 @@ justValidate
 
 
 btnValid.addEventListener('click', () => {
+  document.querySelector('.form__button').click();
   const h1 = document.querySelector('.valid_check');
 
   if (justValidate.isValid) {
@@ -131,5 +133,5 @@ btnValid.addEventListener('click', () => {
   }
   setTimeout(() => {
     h1.textContent = '';
-  }, 2000);
+  }, 20000);
 });
